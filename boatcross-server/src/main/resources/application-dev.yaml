@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    username: root
+    url: jdbc:mysql://localhost:3306/boatcross?characterEncoding=utf8&characterSetResults=utf8&autoReconnect=true&failOverReadOnly=false
+
+  thymeleaf:
+    cache: false
+
+  jackson:
+    serialization:
+      INDENT_OUTPUT: true

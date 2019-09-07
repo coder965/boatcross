@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    active: dev
+  main:
+    banner-mode: "off"
+  jpa:
+    open-in-view: false
+  jackson:
+    date-format: yyyy-MM-dd hh:mm:ss
