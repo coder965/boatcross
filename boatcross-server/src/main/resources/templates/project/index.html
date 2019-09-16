@@ -1,0 +1,123 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="common/header-resource"/>
+
+    <title>项目部署</title>
+</head>
+
+<body>
+<div th:replace="common/navbar"/>
+<!-- Begin page content -->
+<div class="container">
+    <div class="page-header">
+        <h2>项目部署</h2>
+    </div>
+    <form method="post" id="deployForm">
+        <table class="table table-striped table-bordered table-hover" id="deployTable">
+            <tr>
+                <th style="width: 64px"><label><input type="checkbox" id="checkAll"/> 全选</label></th>
+                <th style="width: 240px">项目</th>
+                <th style="width: 240px">操作</th>
+                <th>结果</th>
+            </tr>
+            <tr th:each="project:${projects}">
+                <td><input type="checkbox" name="projects[]" th:value="${project.name}"/></td>
+                <td th:text="${project.name}"></td>
+                <td th:attr="id=${project.name + '-operation'}">
+                    <a th:href="@{${jenkinsConfig.url} + '/view/hk-nurse/job/' + ${project.name} + '/lastBuild/console'}"
+                       target="_blank">console输出</a>
+                </td>
+                <td><span th:attr="id=${project.name + '-result'}"></span></td>
+            </tr>
+        </table>
+        <p>
+            <input type="button" value="构建" id="buildButton" class="btn btn-default"/>
+            <input type="button" value="提交审批" id="applyButton" class="btn btn-default"/>
+        </p>
+    </form>
+    <div id="errorMessage" class="text-warning"></div>
+</div>
+
+<div th:replace="common/footer-resource"/>
+
+<script type="text/javascript">
+
+    var websocket = null;
+
+    //判断当前浏览器是否支持WebSocket
+    if ('WebSocket' in window) {
+        websocket = new WebSocket("[[${'ws://' + #httpServletRequest.getServerName() + ':' + #httpServletRequest.getServerPort() + #httpServletRequest.getContextPath() + '/jenkins-project'}]]");
+    } else {
+        alert('Not support websocket')
+    }
+
+    //连接发生错误的回调方法
+    websocket.onerror = function (event) {
+        console.log(event);
+        operationComplete();
+    };
+
+    //连接成功建立的回调方法
+    websocket.onopen = function (event) {
+        console.log(event);
+    };
+
+    //接收到消息的回调方法
+    websocket.onmessage = function (event) {
+        console.log(event);
+        displayResult(event.data);
+    };
+
+    //连接关闭的回调方法
+    websocket.onclose = function (event) {
+        console.log(event);
+        operationComplete();
+        if (event && event.reason != "") {
+            $("#errorMessage").text(event.reason);
+        }
+    };
+
+    //监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
+    window.onbeforeunload = function () {
+        console.log(event);
+        websocket.close();
+    };
+
+    function displayResult(result) {
+        var jsonResult = JSON.parse(result);
+        if (jsonResult["phase"] == "complete") {
+            operationComplete();
+        } else {
+            document.getElementById(jsonResult['project'] + "-result").innerText = jsonResult['message'];
+        }
+    }
+
+    //关闭连接
+    function closeWebSocket() {
+        websocket.close();
+    }
+
+    $("#buildButton").on("click", function () {
+        var selectedProjects = $("input[name='projects[]']:checked");
+        if (selectedProjects.length == 0) {
+            alert("请先选择要操作的项目");
+            return false;
+        }
+
+        $(this).attr("disabled", true);
+        $("#deployTable td span").text("");
+
+        websocket.send(JSON.stringify(selectedProjects.serializeJSON()));
+    });
+
+    function operationComplete() {
+        $("#buildButton").attr("disabled", false);
+    }
+
+    $("#checkAll").on("click", function () {
+        $("input[name='projects[]']").prop("checked", this.checked);
+    });
+</script>
+</body>
+</html>

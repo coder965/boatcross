@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="common/header-resource"/>
+
+    <title>添加Jenkins项目</title>
+</head>
+
+<body>
+<div th:replace="common/navbar"/>
+<!-- Begin page content -->
+<div class="container">
+    <div class="page-header">
+        <h2>添加Jenkins项目</h2>
+    </div>
+    <form method="post" class="form-horizontal">
+        <input type="hidden" name="id" id="jenkinsProjectForm-id"/>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">名称：</label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control input-sm" placeholder="请输入名称" name="name" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">阿里云容器名称：</label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control input-sm" placeholder="请输入阿里云容器名称" name="aliyunName" />
+            </div>
+            <div class="col-sm-8">
+                <span class="text-muted">如容器名和名称一致，可留空</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">git版本库地址：</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control input-sm" placeholder="请输入git版本库地址" name="gitRepositoryUrl" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">git版本库路径：</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control input-sm" placeholder="请输入git版本库路径" name="gitRepositoryPath" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">触发构建的token：</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control input-sm" placeholder="请输入触发构建的token" name="triggerToken" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">优先级：</label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control input-sm" placeholder="请输入优先级数字" name="priority" />
+            </div>
+            <div class="col-sm-8">
+                <span class="text-muted">数字越小越优先，多个项目时优先级高的项目将优先构建部署，如无优先级需要，请留空</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">环境：</label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control input-sm" placeholder="请输入环境" name="env" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2">
+                <input type="submit" value="提交" class="btn btn-sm btn-primary"/>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div th:replace="common/footer-resource"/>
+
+</body>
+</html>

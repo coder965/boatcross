@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.kelystor.boatcross.dao.JenkinsProjectMapper" >
+<mapper namespace="com.kelystor.boatcross.dao.JenkinsProjectMapper">
     <resultMap id="BaseResultMap" type="com.kelystor.boatcross.entity.JenkinsProject">
     </resultMap>
 
@@ -8,4 +8,46 @@
         SELECT * FROM `bc_jenkins_project`
     </select>
 
+    <!--
+        -`priority` DESC 取负值降序排，是因为如果按正常的升序排，NULL值会排到前面
+        对我们的应用来说，优先级数值低的排前面，而NULL表示没有优先级，会统一放到后面（并支持同时构建）
+    -->
+    <select id="findByProjectNames" resultMap="BaseResultMap">
+        SELECT * FROM `bc_jenkins_project`
+        <where>
+        `name` IN
+        <foreach collection="projects" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        AND `env`=#{environment}
+        </where>
+        ORDER BY -`priority` DESC
+    </select>
+
+    <select id="findByEnvironments" resultMap="BaseResultMap">
+        SELECT * FROM `bc_jenkins_project`
+        <where>
+        `env`=#{environment}
+        </where>
+    </select>
+
+    <insert id="save">
+        INSERT INTO `bc_jenkins_project` (name, aliyun_name, git_repository_url, git_repository_path, trigger_token, priority, env)
+        VALUES (#{name}, #{aliyunName}, #{gitRepositoryUrl}, #{gitRepositoryPath}, #{triggerToken}, #{priority}, #{env})
+    </insert>
+
+    <update id="update">
+        UPDATE `bc_jenkins_project`
+        <set>
+        name=#{name},
+        aliyun_name=#{aliyunName},
+        git_repository_url=#{gitRepositoryUrl},
+        git_repository_path=#{gitRepositoryPath},
+        trigger_token=#{triggerToken},
+        env=#{env},
+        </set>
+        <where>
+        id=#{id}
+        </where>
+    </update>
 </mapper>

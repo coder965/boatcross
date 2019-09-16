@@ -36,7 +36,7 @@ public class User implements Serializable {
 	/**
 	 * 钉钉用户id
 	 */
-	private Integer dingdingUserId;
+	private String dingdingUserId;
 
 	/**
 	 * 钉钉部门id

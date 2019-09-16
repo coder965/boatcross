@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kelystor.boatcross.dao.SettingMapper">
+    <resultMap id="BaseResultMap" type="com.kelystor.boatcross.entity.Setting">
+    </resultMap>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        SELECT * FROM `bc_setting`
+    </select>
+
+    <select id="findByKeyAndEnvironment" resultMap="BaseResultMap">
+        SELECT * FROM `bc_setting`
+        <where>
+            `key`=#{key} AND (`env`=#{environment} OR `env` IS NULL)
+        </where>
+    </select>
+
+    <insert id="save">
+        INSERT INTO `bc_setting` (`key`, `value`, `env`)
+        VALUES (#{key}, #{value}, #{env})
+    </insert>
+
+    <update id="update">
+        UPDATE `bc_setting` SET
+        <set>
+        `value`=#{value},
+        `env`=#{env},
+        </set>
+        <where>
+        `key`=#{key}
+        </where>
+    </update>
+</mapper>

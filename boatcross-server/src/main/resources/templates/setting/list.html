@@ -1,0 +1,112 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="common/header-resource"/>
+
+    <title>配置</title>
+</head>
+
+<body>
+<div th:replace="common/navbar"/>
+<!-- Begin page content -->
+<div class="container">
+    <div class="page-header">
+        <h2>配置</h2>
+    </div>
+    <form method="post" action="update" class="form-horizontal">
+        <fieldset>
+            <legend>Jenkins</legend>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">url：</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control input-sm" placeholder="请输入url" name="jenkins[url]"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">用户名：</label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control input-sm" placeholder="请输入用户名" name="jenkins.username"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">API Token：</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control input-sm" placeholder="请输入API Token" name="jenkins[apiToken]"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">环境：</label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control input-sm" placeholder="请输入环境" name="jenkins.env"/>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>GitLab</legend>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">url：</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control input-sm" placeholder="请输入url" name="gitlab[url]"/>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>阿里云</legend>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">证书路径：</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control input-sm" placeholder="请输入证书路径" name="cert_path"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Master Url：</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control input-sm" placeholder="请输入Master Url" name="master_url"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">环境：</label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control input-sm" placeholder="请输入环境" name="env"/>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>钉钉</legend>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">corp id：</label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control input-sm" placeholder="请输入corp id" name="corp_id"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">agent id：</label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control input-sm" placeholder="请输入agent id" name="agent_id"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">app key：</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control input-sm" placeholder="请输入app key" name="app_key"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">secret key：</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control input-sm" placeholder="请输入secret key" name="secret_key"/>
+                </div>
+            </div>
+        </fieldset>
+        <div class="form-group">
+            <div class="col-sm-offset-2">
+                <input type="submit" value="提交" class="btn btn-sm btn-primary"/>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div th:replace="common/footer-resource"/>
+
+</body>
+</html>
